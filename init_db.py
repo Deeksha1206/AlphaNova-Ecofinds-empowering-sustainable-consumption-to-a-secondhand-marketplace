@@ -1,7 +1,8 @@
 import sqlite3
 
-# connect to database (creates ecofinds.db if it doesn’t exist)
-conn = sqlite3.connect("ecofinds.db")
+DB_PATH = "ecofinds.db"
+
+conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
 # Create tables
@@ -22,39 +23,23 @@ CREATE TABLE IF NOT EXISTS products (
     user_id INTEGER,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
-
-CREATE TABLE IF NOT EXISTS cart (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
-);
-
-CREATE TABLE IF NOT EXISTS purchases (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    purchased_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
-);
 """)
 
-# Insert sample data
-cursor.execute("INSERT INTO users (email, username, password) VALUES (?,?,?)",
+# Insert sample users
+cursor.execute("INSERT OR IGNORE INTO users (email, username, password) VALUES (?,?,?)",
                ("alice@example.com", "Alice", "pass123"))
-cursor.execute("INSERT INTO users (email, username, password) VALUES (?,?,?)",
+cursor.execute("INSERT OR IGNORE INTO users (email, username, password) VALUES (?,?,?)",
                ("bob@example.com", "Bob", "pass123"))
 
-cursor.execute("INSERT INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
+# Insert sample products
+cursor.execute("INSERT OR IGNORE INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
                ("Used Bicycle", "21-speed mountain bike, good condition", "Sports", 150.0, 1))
-cursor.execute("INSERT INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
+cursor.execute("INSERT OR IGNORE INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
                ("Wooden Chair", "Solid wood chair with cushion", "Furniture", 45.0, 2))
-cursor.execute("INSERT INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
+cursor.execute("INSERT OR IGNORE INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
                ("Data Structures Book", "Second-hand textbook", "Books", 10.0, 1))
 
 conn.commit()
 conn.close()
-print("Database ecofinds.db created with sample data")
+print("✅ Database initialized with sample data")
+
