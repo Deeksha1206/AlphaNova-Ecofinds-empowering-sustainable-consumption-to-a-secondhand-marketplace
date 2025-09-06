@@ -30,8 +30,10 @@ def get_products():
 @app.route("/users")
 def get_users():
     rows = query_db("SELECT id, email, username FROM users")
+    print("Rows:", rows)  # Debugging
     users = [{"id": r[0], "email": r[1], "username": r[2]} for r in rows]
     return jsonify(users)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
