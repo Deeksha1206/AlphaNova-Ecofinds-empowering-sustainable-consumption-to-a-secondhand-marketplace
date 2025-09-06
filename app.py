@@ -2,11 +2,13 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+# Initialize app
 app = Flask(__name__)
 CORS(app)
 
 # Database setup
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecofinds.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Models
@@ -25,6 +27,10 @@ class Product(db.Model):
     image = db.Column(db.String(200))
 
 # Routes
+@app.route('/')
+def home():
+    return "✅ Flask backend is running for EcoFinds!"
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -59,7 +65,8 @@ def get_products():
         "image": p.image
     } for p in products])
 
+# Run app
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        db.create_all()  # Ensure DB tables exist
     app.run(debug=True)
