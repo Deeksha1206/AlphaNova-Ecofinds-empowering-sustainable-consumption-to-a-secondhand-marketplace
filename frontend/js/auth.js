@@ -1,23 +1,22 @@
-// auth.js
-const API = "http://127.0.0.1:5000/api";
+// Sample user data for testing
+const users = [
+    { username: "meghana", password: "1234" },
+    { username: "teammate1", password: "abcd" }
+];
 
-document.getElementById("loginForm").onsubmit = async e=>{
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+document.getElementById("login-form").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-  const res = await fetch(API + "/login", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({email,password})
-  });
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-  const data = await res.json();
-  if(res.ok){
-    localStorage.setItem("user", JSON.stringify(data));
-    alert("Login successful!");
-    window.location = "index.html";
-  } else {
-    alert(data.error || "Login failed");
-  }
-};
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if(user) {
+        alert("Login successful!");
+        // Redirect to index or product page
+        window.location.href = "index.html";
+    } else {
+        alert("Invalid username or password");
+    }
+});
