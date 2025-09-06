@@ -1,0 +1,41 @@
+/* styles.css */
+
+/* General styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Headings */
+h1, h2 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Form styling */
+form input, form button {
+  margin-bottom: 10px;
+}
+
+/* Product list */
+.list-group-item {
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  #search {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+  .btn {
+    width: 100%;
+  }
+}
