@@ -1,9 +1,8 @@
 from flask import Flask, jsonify
 import sqlite3
-import os
 
 app = Flask(__name__)
-DB_PATH = os.path.join(os.path.dirname(__file__), "ecofinds.db")
+DB_PATH = "ecofinds.db"
 
 def query_db(query, args=()):
     conn = sqlite3.connect(DB_PATH)
@@ -26,14 +25,14 @@ def get_users():
 @app.route("/products")
 def get_products():
     rows = query_db("SELECT id, title, description, category, price FROM products")
-    products = [
-        {"id": r[0], "title": r[1], "description": r[2], "category": r[3], "price": r[4]}
-        for r in rows
-    ]
+    products = [{"id": r[0], "title": r[1], "description": r[2], "category": r[3], "price": r[4]} for r in rows]
     return jsonify(products)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
 
 
 
