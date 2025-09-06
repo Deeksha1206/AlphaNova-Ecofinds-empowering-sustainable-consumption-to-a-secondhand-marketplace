@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoFinds - Marketplace</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="container py-3">
+  <h1 class="text-primary">EcoFinds</h1>
+  <p class="text-muted">Buy & Sell Pre-owned Goods</p>
+
+  <!-- Add Product Form -->
+  <form id="addForm" class="mb-3">
+    <input id="title" class="form-control mb-2" placeholder="Title" required>
+    <input id="category" class="form-control mb-2" placeholder="Category" required>
+    <input id="price" type="number" class="form-control mb-2" placeholder="Price" required>
+    <button class="btn btn-success">Add Product</button>
+  </form>
+
+  <!-- Search -->
+  <div class="mb-3">
+    <input id="search" class="form-control d-inline-block w-50" placeholder="Search...">
+    <button id="sbtn" class="btn btn-info">Search</button>
+  </div>
+
+  <!-- Product List -->
+  <ul id="list" class="list-group"></ul>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
