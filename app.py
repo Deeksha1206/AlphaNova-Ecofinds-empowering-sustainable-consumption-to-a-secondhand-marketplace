@@ -1,69 +1,41 @@
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from flask import Flask, jsonify
+import sqlite3
 
-# Create Flask app
 app = Flask(__name__)
-CORS(app)
 
-# Database setup (pointing to your existing ecofinds.db)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecofinds.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+DB_PATH = "ecofinds.db"
 
-# -----------------------
-# Models (must match your DB schema)
-# -----------------------
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
-    username = db.Column(db.String(50), nullable=False)
+def query_db(query, args=()):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(query, args)
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
 
-class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    image = db.Column(db.String(200), default="placeholder.png")
-
-# -----------------------
-# Routes
-# -----------------------
 @app.route("/")
 def home():
-    return "✅ Flask backend is connected to ecofinds.db"
+    return "✅ EcoFinds backend is running (SQLite direct)"
 
-# Get all products
-@app.route("/products", methods=["GET"])
+@app.route("/products")
 def get_products():
-    products = Product.query.all()
-    return jsonify([{
-        "id": p.id,
-        "title": p.title,
-        "description": p.description,
-        "category": p.category,
-        "price": p.price,
-        "user_id": p.user_id,
-        "image": p.image
-    } for p in products])
+    rows = query_db("SELECT id, title, description, category, price FROM products")
+    products = [
+        {"id": r[0], "title": r[1], "description": r[2], "category": r[3], "price": r[4]}
+        for r in rows
+    ]
+    return jsonify(products)
 
-# Get all users
-@app.route("/users", methods=["GET"])
+@app.route("/users")
 def get_users():
-    users = User.query.all()
-    return jsonify([{
-        "id": u.id,
-        "email": u.email,
-        "username": u.username
-    } for u in users])
+    rows = query_db("SELECT id, email, username FROM users")
+    users = [{"id": r[0], "email": r[1], "username": r[2]} for r in rows]
+    return jsonify(users)
 
-# -----------------------
-# Run app
-# -----------------------
 if __name__ == "__main__":
-    # IMPORTANT: Don't recreate tables, just use existing DB
     app.run(debug=True)
+
+
+
+  
 
