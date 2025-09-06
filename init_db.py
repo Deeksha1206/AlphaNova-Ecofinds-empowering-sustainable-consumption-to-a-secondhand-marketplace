@@ -43,16 +43,16 @@ CREATE TABLE IF NOT EXISTS purchases (
 """)
 
 # Insert sample data
-cursor.execute("INSERT OR IGNORE INTO users (email, username, password) VALUES (?,?,?)",
+cursor.execute("INSERT INTO users (email, username, password) VALUES (?,?,?)",
                ("alice@example.com", "Alice", "pass123"))
-cursor.execute("INSERT OR IGNORE INTO users (email, username, password) VALUES (?,?,?)",
+cursor.execute("INSERT INTO users (email, username, password) VALUES (?,?,?)",
                ("bob@example.com", "Bob", "pass123"))
 
-cursor.execute("INSERT OR IGNORE INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
+cursor.execute("INSERT INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
                ("Used Bicycle", "21-speed mountain bike, good condition", "Sports", 150.0, 1))
-cursor.execute("INSERT OR IGNORE INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
+cursor.execute("INSERT INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
                ("Wooden Chair", "Solid wood chair with cushion", "Furniture", 45.0, 2))
-cursor.execute("INSERT OR IGNORE INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
+cursor.execute("INSERT INTO products (title, description, category, price, user_id) VALUES (?,?,?,?,?)",
                ("Data Structures Book", "Second-hand textbook", "Books", 10.0, 1))
 
 conn.commit()
