@@ -57,4 +57,4 @@ cursor.execute("INSERT OR IGNORE INTO products (title, description, category, pr
 
 conn.commit()
 conn.close()
-print("✅ Database ecofinds.db created with sample data")
+print("Database ecofinds.db created with sample data")
