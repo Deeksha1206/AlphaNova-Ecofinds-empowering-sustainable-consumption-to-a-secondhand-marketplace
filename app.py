@@ -6,12 +6,13 @@ app = Flask(__name__)
 DB_PATH = "ecofinds.db"
 
 def query_db(query, args=()):
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
     cursor = conn.cursor()
     cursor.execute(query, args)
     rows = cursor.fetchall()
     conn.close()
     return rows
+
 
 @app.route("/")
 def home():
